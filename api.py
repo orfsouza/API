@@ -1,5 +1,6 @@
 import json
 import requests
+import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 API_URL = "https://casino.betfair.com/api/tables-details"
@@ -30,7 +31,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
 
-def run(server_class=HTTPServer, handler_class=RequestHandler, port=8000):
+def run(server_class=HTTPServer, handler_class=RequestHandler):
+    port = int(os.environ.get('PORT', 8000))  # Usa a variável de ambiente PORT
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f'Servindo na porta {port}...')
